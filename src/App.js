@@ -1,28 +1,25 @@
 import React from "react";
-import AboutUs from "./components/AboutUs";
-import DailyPrices from "./components/DailyPrices";
-import Footer from "./components/Footer";
-import Home from "./components/Home";
-import Navbar from "./components/Navbar";
-import Newsletter from "./components/Newsletter";
-import Roadmap from "./components/Roadmap";
-import ScrollToTop from "./components/ScrollToTop";
-import Services from "./components/Services";
-import SignUp from "./components/SignUp";
+import { Helmet } from 'react-helmet';
 
 export default function App() {
   return (
-    <div>
-      <ScrollToTop />
-      <Navbar />
-      <Home />
-      <DailyPrices />
-      <AboutUs />
-      <Services />
-      <SignUp />
-      <Roadmap />
-      <Newsletter />
-      <Footer />
-    </div>
+    <>
+      <Helmet>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Khula:wght@400;600;800&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="..."
+          crossOrigin="anonymous"
+        />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+      </Helmet>
+    </>
   );
 }

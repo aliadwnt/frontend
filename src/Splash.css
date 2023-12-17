@@ -1,0 +1,17 @@
+.splashStyle {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+    .splashStyle {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .splashStyle {
+        width: 60%;
+    }
+}

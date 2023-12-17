@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { BsFacebook, BsTwitter, BsYoutube } from "react-icons/bs";
 import spacemen from "../assets/spacemen.png";
 import cards from "../assets/cards.png";
+
 export default function Footer() {
   const companyLinks = [
     "About",
@@ -19,69 +20,69 @@ export default function Footer() {
     "Browse crypto prices",
     "Coinbase Bytes newsletter",
     "Crypto basics",
-    "Tips & Turoials",
+    "Tips & Tutorials",
     "Market Updates",
     "What is SavingShift?",
     "What is crypto?",
     "What is a blockchain?",
-    "How to set up a crypto waller",
+    "How to set up a crypto wallet",
     "How to send crypto",
   ];
   const socialIcons = [<BsFacebook />, <BsTwitter />, <BsYoutube />];
+
   return (
     <Foot className="flex column gap">
-      <div className="upper-footer">
-        <div className=" flex column gap-1">
+      <div className="upper-footer flex gap">
+        <div className="column">
           <div className="brand">
             <h2>SavingShift</h2>
           </div>
           <div className="address">
-            <p>Perumahan Wahyu Pesona Mandiri,
+            <p>
+              Perumahan Wahyu Pesona Mandiri,
               Mejayan, Kab. Madiun, Jawa Timur
             </p>
           </div>
           <div className="info">
-            <span>Phone : +62812 2788 3455</span>
-            <span>  Email : Admin@savingShift.com</span>
+            <span>Phone: +62812 2788 3455</span>
+            <span>Email: Admin@savingShift.com</span>
           </div>
           <div className="social-icons flex gap-2">
-            {socialIcons.map((icon, index) => {
-              return (
-                <div className="icon" key={index}>
-                  {icon}
-                </div>
-              );
-            })}
+            {socialIcons.map((icon, index) => (
+              <div className="icon" key={index}>
+                {icon}
+              </div>
+            ))}
           </div>
         </div>
-        <div className=" flex column gap-1">
+        <div className="column">
           <div className="title">
             <h3>Company</h3>
           </div>
           <ul className="flex column gap-half">
-            {companyLinks.map((link) => {
-              return <li key={link}>{link}</li>;
-            })}
+            {companyLinks.map((link) => (
+              <li key={link}>{link}</li>
+            ))}
           </ul>
         </div>
-        <div className=" flex column gap-1">
+        <div className="column">
           <div className="title">
             <h3>Learn</h3>
           </div>
           <ul className="flex column gap-half">
-            {LearnLinks.map((link) => {
-              return <li key={link}>{link}</li>;
-            })}
+            {LearnLinks.map((link) => (
+              <li key={link}>{link}</li>
+            ))}
           </ul>
         </div>
-        <div className=" flex column gap-1">
+        <div className="column">
           <div className="title">
             <h3>Company</h3>
           </div>
           <ul className="flex column gap-half">
-            {companyLinks.map((link) => {
-              return <li key={link}>{link}</li>;
-            })}
+            {companyLinks.map((link) => (
+              <li key={link}>{link}</li>
+            ))}
           </ul>
         </div>
         <div className="col spacemen">
@@ -91,15 +92,19 @@ export default function Footer() {
         </div>
       </div>
       <div className="lower-footer flex a-center j-between gap">
-        <div className="col1">
-          <span>&copy; 2023 || SavingShift</span>
+        <div className="cards">
+          <img
+            src={cards}
+            alt="cards"
+            style={{ maxWidth: '400px', maxHeight: '100px' }}
+          />
         </div>
-        <div className="col2 flex a-center gap">
-          <span>Privacy Policy</span>
-          <span>Terms & Conditions</span>
-          <span className="cards">
-            <img src={cards} alt="cards" />
-          </span>
+        <div className="col1">
+          <div className="col2 flex a-center gap">
+          <h7 style={{ fontSize: '12px' }}>
+    &copy; 2023 || SavingShift || Privacy Policy || Terms & Conditions
+  </h7>
+          </div>
         </div>
       </div>
     </Foot>
@@ -133,8 +138,11 @@ const Foot = styled.footer`
       flex-direction: row;
     }
     .upper-footer {
-      grid-template-columns: 1fr;
+      flex-direction: row;
       gap: 2rem;
+      .column {
+        width: 100%;
+      }
     }
     .spacemen {
       display: none;

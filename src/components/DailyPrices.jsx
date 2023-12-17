@@ -1,12 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import price1 from "../assets/price1.png";
-import price2 from "../assets/price2.png";
-import price3 from "../assets/price3.png";
-import price4 from "../assets/price4.png";
 import bitcoin from "../assets/bitcoin.png";
 import ethereum from "../assets/ethereum.png";
 import ggcoin from "../assets/ggcoin.png";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function DailyPrices() {
   const data = [
@@ -136,3 +133,59 @@ const Section = styled.section`
     }
   }
 `;
+// import React from 'react';
+// import { Chart as ChartJs, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+// import { Line } from 'react-chartjs-2';
+// import styled from 'styled-components';
+// import { dateFormat } from './dateFormat';
+
+// ChartJs.register(
+//     CategoryScale,
+//     LinearScale,
+//     PointElement,
+//     LineElement,
+//     Title,
+//     Tooltip,
+//     Legend,
+//     ArcElement,
+// );
+
+// function Chart({ incomes, expenses }) {
+//     const data = {
+//         labels: incomes.map((inc) => {
+//             const { date } = inc;
+//             return dateFormat(date);
+//         }),
+//         datasets: [
+//             {
+//                 label: 'Income',
+//                 data: incomes.map((income) => income.amount),
+//                 backgroundColor: 'green',
+//                 tension: 0.2,
+//             },
+//             {
+//                 label: 'Expenses',
+//                 data: expenses.map((expense) => expense.amount),
+//                 backgroundColor: 'red',
+//                 tension: 0.2,
+//             },
+//         ],
+//     };
+
+//     return (
+//         <ChartStyled>
+//             <Line data={data} />
+//         </ChartStyled>
+//     );
+// }
+
+// const ChartStyled = styled.div`
+//     background: #FCF6F9;
+//     border: 2px solid #FFFFFF;
+//     box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+//     padding: 1rem;
+//     border-radius: 20px;
+//     height: 100%;
+// `;
+
+// export default Chart;

@@ -7,7 +7,7 @@ import Button from "./Button";
 
 export default function Home() {
   return (
-    <Section className="flex j-center a-center gap">
+    <Section className="flex j-center a-center gap gap-2">
       <div className="content flex column gap-2">
         <div className="subtitle">
           <h3 className="flex a-center gap-1 blue">
