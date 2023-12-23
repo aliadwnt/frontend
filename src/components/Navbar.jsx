@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import avatar from '../components/img/avatar.png'
 
 export default function Navbar() {
-  const links = ["Home", "Analytics", "Transaction", "Goals", "Profile"];
+  const links = ["Home", "Analytics", "Transaction", "Goals"];
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
   html.addEventListener("click", (e) => setIsNavOpen(false));
@@ -57,99 +57,118 @@ export default function Navbar() {
   }
   
   const Nav = styled.nav`
-    text-decoration: none;
-    background-color: #fcc9e4; /* Light pink background */
+  text-decoration: none;
+  background-color: #fcc9e4; /* Light pink background */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  
+  .brand {
+    h2 {
+      font-size: 2.5rem;
+      margin: 0; /* Remove default margin */
+    }
+  }
+  
+  .toggle {
+    display: none;
+  }
+  
+  .user-con {
+    height: 70px;
+    display: center;
+    align-items: center;
+    gap: 1rem;
+    
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #fcf6f9;
+      border: 3px solid #B06161;
+      padding: .2rem;
+      box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .links {
+    ul {
+      font-weight: bolder;
+      margin: 0; /* Remove default margin */
+      padding: 0; /* Remove default padding */
+      
+      li {
+        cursor: pointer;
+        
+        &:first-of-type {
+          a {
+            opacity: 1;
+          }
+        }
+        
+        a {
+          opacity: 0.7;
+          transition: 0.5s ease-in-out;
+          
+          &:hover {
+            opacity: initial;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    position: relative;
+    z-index: 5;
+    flex-direction: row;
+    
     .brand {
       h2 {
-        font-size: 2.5rem;
+        font-size: 2rem;
       }
     }
+    
     .toggle {
+      padding-right: 1rem;
+      display: block;
+      z-index: 51;
+    }
+    
+    .show {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    .links {
+      z-index: 10;
+      position: fixed;
+      overflow-x: hidden;
+      top: 0;
+      right: 0;
+      width: ${({ state }) => (state ? "60%" : "0")};
+      height: 100vh;
+      background-color: #fcc9e4; /* Light pink background */
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.7s ease-in-out;
+      
+      ul {
+        flex-direction: column;
+        text-align: center;
+        height: 100%;
+        justify-content: center;
+        
+        li {
+          a {
+            color: #B06161;
+          }
+        }
+      }
+    }
+    
+    .auth {
       display: none;
     }
-    .user-con{
-      height: 70px;
-      display: center;
-      align-items: center;
-      gap: 1rem;
-      img{
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          object-fit: cover;
-          background: #fcf6f9;
-          border: 3px solid #B06161;
-          padding: .2rem;
-          box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
-      }
-    .links {
-      ul {
-        font-weight: bolder;
-        li {
-          cursor: pointer;
-          &:first-of-type {
-            a {
-              opacity: 1;
-            }
-          }
-          a {
-            opacity: 0.7;
-            transition: 0.5s ease-in-out;
-            &:hover {
-              opacity: initial;
-            }
-          }
-        }
-      }
-    }
-  
-    @media screen and (min-width: 280px) and (max-width: 1080px) {
-
-      position: relative;
-      z-index: 5;
-      flex-direction: row;
-      .brand {
-        h2 {
-          font-size: 2rem;
-        }
-      }
-      .toggle {
-        padding-right: 1rem;
-        display: block;
-        z-index: 51;
-        
-      }
-      .show {
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-      .links {
-        z-index: 10;
-        position: fixed;
-        overflow-x: hidden;
-        top: 0;
-        right: 0;
-        width: ${({ state }) => (state ? "60%" : "0%")};
-        height: 100vh;
-        background-color: #fcc9e4; /* Light pink background */
-        opacity: 0;
-        visibility: hidden;
-        transition: 0.7s ease-in-out;
-        ul {
-          flex-direction: column;
-          text-align: center;
-          height: 100%;
-          justify-content: center;
-          li {
-            a {
-              color: #B06161;
-             
-            }
-          }
-        }
-      }
-      .auth {
-        display: none;
-      }
-    }
-  `;
+  }
+`;

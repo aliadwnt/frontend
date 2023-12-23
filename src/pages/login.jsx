@@ -72,9 +72,17 @@ export default function Login() {
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
-                      din't have an account?{" "}
+                      didn't have an account?{" "}
                         <a href="signup" className="text-primary fw-bold">
                         Sign Up
+                        </a>
+                      </p>
+                    </div>
+                    <div className="mt-3">
+                      <p className="mb-0  text-center">
+                      Login As Admin??{" "}
+                        <a href="/LoginAdmin" className="text-primary fw-bold">
+                          Click Here
                         </a>
                       </p>
                     </div>

@@ -1,144 +1,142 @@
-// // import React, { useEffect } from 'react'
-// // import styled from 'styled-components'
-// // import { useGlobalContext } from '../components/globalContext';
-// // import { InnerLayout } from '../components/styles/Layouts';
-// // import Form from '../components/Form';
-// // import IncomeItem from '../components/IncomeItem';
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-// // function Income() {
-// //     const {addIncome,incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext()
+const GoalItem = ({ goal }) => {
+  const { name, purpose, date, amount, status } = goal;
 
-// //     useEffect(() =>{
-// //         getIncomes()
-// //     }, [])
-// //     return (
-// //         <IncomeStyled>
-// //             <InnerLayout>
-// //                 <h1>Incomes</h1>
-// //                 <h2 className="total-income">Total Income: <span>${totalIncome()}</span></h2>
-// //                 <div className="income-content">
-// //                     <div className="form-container">
-// //                         <Form />
-// //                     </div>
-// //                     <div className="incomes">
-// //                         {incomes.map((income) => {
-// //                             const {_id, title, amount, date, category, description, type} = income;
-// //                             return <IncomeItem
-// //                                 key={_id}
-// //                                 id={_id} 
-// //                                 title={title} 
-// //                                 description={description} 
-// //                                 amount={amount} 
-// //                                 date={date} 
-// //                                 type={type}
-// //                                 category={category} 
-// //                                 indicatorColor="var(--color-green)"
-// //                                 deleteItem={deleteIncome}
-// //                             />
-// //                         })}
-// //                     </div>
-// //                 </div>
-// //             </InnerLayout>
-// //         </IncomeStyled>
-// //     )
-// // }
+  return (
+    <div className="card mb-3">
+      <div className="card-body">
+        <h5 className="card-title">{name}</h5>
+        <p className="card-text">
+          <strong>Tujuan:</strong> {purpose}
+        </p>
+        <p className="card-text">
+          <strong>Tanggal:</strong> {date}
+        </p>
+        <p className="card-text">
+          <strong>Jumlah:</strong> {amount}
+        </p>
+        <p className={`card-text ${status === 'tercapai' ? 'text-success' : 'text-danger'}`}>
+          <strong>Status:</strong> {status}
+        </p>
+      </div>
+    </div>
+  );
+};
 
-// // const IncomeStyled = styled.div`
-// //     display: flex;
-// //     overflow: auto;
-// //     .total-income{
-// //         display: flex;
-// //         justify-content: center;
-// //         align-items: center;
-// //         background: #FCF6F9;
-// //         border: 2px solid #FFFFFF;
-// //         box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-// //         border-radius: 20px;
-// //         padding: 1rem;
-// //         margin: 1rem 0;
-// //         font-size: 2rem;
-// //         gap: .5rem;
-// //         span{
-// //             font-size: 2.5rem;
-// //             font-weight: 800;
-// //             color: var(--color-green);
-// //         }
-// //     }
-// //     .income-content{
-// //         display: flex;
-// //         gap: 2rem;
-// //         .incomes{
-// //             flex: 1;
-// //         }
-// //     }
-// // `;
+const GoalsPage = () => {
+  const [goals, setGoals] = useState([
+    {
+      name: 'Goal 1',
+      purpose: 'Menyimpan untuk liburan',
+      date: '2023-12-31',
+      amount: 'Rp. 5.000.000',
+      status: 'tercapai',
+    },
+    {
+      name: 'Goal 2',
+      purpose: 'Membeli peralatan baru',
+      date: '2024-06-30',
+      amount: 'Rp. 10.000.000',
+      status: 'belum tercapai',
+    },
+  ]);
 
-// // export default Goals
-// import React, {useState, useMemo} from 'react'
-// import styled from "styled-components";
-// import bg from '../components/img/bg.png'
-// import {MainLayout} from '../components/styles/Layouts'
-// import Orb from '../components/Orb'
-// import Navigation from '../components/Navigation'
-// import Dashboard from './dashboarddlm';
-// import Income from '../components/Income'
-// import Expenses from '../components/Expenses';
-// import { useGlobalContext } from '../components/globalContext';
+  const [newGoal, setNewGoal] = useState({
+    name: '',
+    purpose: '',
+    date: '',
+    amount: '',
+    status: '',
+  });
 
-// function App() {
-//   const [active, setActive] = useState(1)
+  const addGoal = () => {
+    // Validasi form sebelum menambahkan tujuan
+    if (newGoal.name && newGoal.purpose && newGoal.date && newGoal.amount && newGoal.status) {
+      setGoals([...goals, newGoal]);
+      setNewGoal({
+        name: '',
+        purpose: '',
+        date: '',
+        amount: '',
+        status: '',
+      });
+    } else {
+      alert('Harap isi semua kolom form!');
+    }
+  };
 
-//   const global = useGlobalContext()
-//   console.log(global);
+  return (
+    <div className="container mt-4">
+      <Navbar />
+      <div className="container mt-4">
+        <h2>Daftar Tujuan</h2>
+        {goals.map((goal, index) => (
+          <GoalItem key={index} goal={goal} />
+        ))}
+      </div>
+      <div className="container mt-4">
+        <h2>Tambah Tujuan Baru</h2>
+        <form>
+          <div className="form-group">
+            <label>Nama Tujuan:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={newGoal.name}
+              onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label>Tujuan:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={newGoal.purpose}
+              onChange={(e) => setNewGoal({ ...newGoal, purpose: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label>Tanggal:</label>
+            <input
+              type="date"
+              className="form-control"
+              value={newGoal.date}
+              onChange={(e) => setNewGoal({ ...newGoal, date: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label>Jumlah:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={newGoal.amount}
+              onChange={(e) => setNewGoal({ ...newGoal, amount: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label>Status:</label>
+            <select
+              className="form-control"
+              value={newGoal.status}
+              onChange={(e) => setNewGoal({ ...newGoal, status: e.target.value })}
+            >
+              <option value="">Pilih Status</option>
+              <option value="tercapai">Tercapai</option>
+              <option value="belum tercapai">Belum Tercapai</option>
+            </select>
+          </div>
+          <button type="button" className="btn btn-primary" onClick={addGoal}>
+            Tambah Tujuan
+          </button>
+        </form>
+      </div>
+      <Footer />
+    </div>
+  );
+};
 
-//   const displayData = () => {
-//     switch(active){
-//       case 1:
-//         return <Dashboard />
-//       case 2:
-//         return <Dashboard />
-//       case 3:
-//         return <Income />
-//       case 4: 
-//         return <Expenses />
-//       default: 
-//         return <Dashboard />
-//     }
-//   }
-
-//   const orbMemo = useMemo(() => {
-//     return <Orb />
-//   },[])
-
-//   return (
-//     <AppStyled bg={bg} className="App">
-//       {orbMemo}
-//       <MainLayout>
-//         <Navigation active={active} setActive={setActive} />
-//         <main>
-//           {displayData()}
-//         </main>
-//       </MainLayout>
-//     </AppStyled>
-//   );
-// }
-
-// const AppStyled = styled.div`
-//   height: 100vh;
-//   background-image: url(${props => props.bg});
-//   position: relative;
-//   main{
-//     flex: 1;
-//     background: rgba(252, 246, 249, 0.78);
-//     border: 3px solid #FFFFFF;
-//     backdrop-filter: blur(4.5px);
-//     border-radius: 32px;
-//     overflow-x: hidden;
-//     &::-webkit-scrollbar{
-//       width: 0;
-//     }
-//   }
-// `;
-
-// export default App;
-// import Navbar from "../components/Navbar";
+export default GoalsPage;

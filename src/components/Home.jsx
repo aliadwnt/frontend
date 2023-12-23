@@ -26,10 +26,10 @@ export default function Home() {
           making it easier for you to manage your finances no matter where you are.
           </p>
         </div>
-        <div className="buttons flex gap-1">
+        {/* <div className="buttons flex gap-1">
           <Button text="Try Now" icon={<FaChevronCircleRight />} />
           <Button text="Testimonial?" subduedButton />
-        </div>
+        </div> */}
       </div>
       <div className="image">
         <img src={home} alt="home" className="half-width" />

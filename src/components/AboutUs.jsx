@@ -27,7 +27,7 @@ export default function AboutUs() {
             We utilize data analytics to simplify 
             the way you manage your savings and investments"
             </p>
-            <Button text="Start Earning" icon={<FaChevronCircleRight />} />
+            {/* <Button text="Start Earning" icon={<FaChevronCircleRight />} /> */}
           </div>
           <div className="image">
             <img src={about} alt="about" className="half-width" />
