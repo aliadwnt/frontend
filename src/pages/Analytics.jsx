@@ -157,15 +157,6 @@ function Analytics() {
             </Modal.Header>
             <Modal.Body>
             <Form onSubmit={AddDataAnalytics}>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-    <Form.Label>Id_analytics</Form.Label>
-    <Form.Control
-      type="text"
-      autoFocus
-      onChange={(e) => setNewIdAnalytics(e.target.value)}
-      value={newIdAnalytics}
-    />
-  </Form.Group>
   <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
     <Form.Label>saldo_awal</Form.Label>
     <Form.Control
@@ -216,13 +207,6 @@ function Analytics() {
     {/* You can add any additional form fields for updating data */}
   </Form.Group>
   <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-    <Form.Label>Id Analytics</Form.Label>
-    <Form.Control
-      type="text"
-      autoFocus
-      onChange={(e) => setIdAnalytics(e.target.value)}
-      value={id_analytics}
-    />
   </Form.Group>
   <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
     <Form.Label>Saldo Awal</Form.Label>
@@ -274,10 +258,6 @@ function Analytics() {
     <div className="card-body">
       <h5 className="card-title">Detail Data</h5>
       <div className="row">
-        <p className="col-4 card-text">Id_analytics</p>
-        <p className="col-6 card-text">: {id_analytics}</p>
-      </div>
-      <div className="row">
         <p className="col-4 card-text">saldo_awal</p>
         <p className="col-6 card-text">: {saldo_awal}</p>
       </div>
@@ -321,7 +301,6 @@ function Analytics() {
               <CTable striped>
   <CTableHead>
     <CTableRow>
-      <CTableHeaderCell scope="col">Id_analytics</CTableHeaderCell>
       <CTableHeaderCell scope="col">saldo_awal</CTableHeaderCell>
       <CTableHeaderCell scope="col">pemasukan</CTableHeaderCell>
       <CTableHeaderCell scope="col">pengeluaran</CTableHeaderCell>
@@ -332,7 +311,6 @@ function Analytics() {
                   {data_login.map((item, index) => {
                     return (
                       <CTableRow key={index}>
-  <CTableHeaderCell> {item.id_analytics} </CTableHeaderCell>
   <CTableHeaderCell> {item.saldo_awal} </CTableHeaderCell>
   <CTableHeaderCell> {item.pemasukan} </CTableHeaderCell>
   <CTableHeaderCell> {item.pengeluaran} </CTableHeaderCell>
