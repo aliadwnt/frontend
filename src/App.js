@@ -40,6 +40,7 @@ import LoginAdmin from './pages/LoginAdmin';
 import dashboardAdmin from './pages/dashboardAdmin';
 import NavbarAdmin from './components/NavbarAdmin';
 import LogoutAdmin from './pages/LoginAdmin'
+import Bills from './pages/Bills';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
           <Route path="/dashboardAdmin" element={<dashboardAdmin />} />
           <Route path="/NavbarAdmin" element={<NavbarAdmin />} />
           <Route path="/Logout" element={<LoginAdmin />} />
+          <Route path="/Bills" element={<Bills/>} />
 
         </Routes>
       </Router>

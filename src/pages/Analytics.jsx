@@ -1,137 +1,367 @@
-import React, { useState } from 'react';
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { React, useEffect, useState } from "react";
+import axios from "axios";
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
+} from "@coreui/react";
+import { Modal, Button, Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
+function Analytics() {
+  const [id_analytics, setIdAnalytics] = useState("");
+  const [saldo_awal, setSaldoAwal] = useState("");
+  const [pemasukan, setPemasukan] = useState("");
+  const [pengeluaran, setPengeluaran] = useState("");
+  const [show, setShow] = useState(false);
 
-const Analytics = () => {
-  // State untuk menyimpan data
-  const [income, setIncome] = useState(0);
-  const [expenses, setExpenses] = useState(0);
-  const [balance, setBalance] = useState(0);
-  const [incomeTransactions, setIncomeTransactions] = useState([]);
-  const [expenseTransactions, setExpenseTransactions] = useState([]);
-  const [status, setStatus] = useState('');
-  const [incomeAmount, setIncomeAmount] = useState();
-  const [expenseAmount, setExpenseAmount] = useState();
-  const [initialBalance, setInitialBalance] = useState(null); // State untuk menyimpan saldo awal
+  const [newIdAnalytics, setNewIdAnalytics] = useState("");
+  const [newSaldoAwal, setNewSaldoAwal] = useState("");
+  const [newPemasukan, setNewPemasukan] = useState("");
+  const [newPengeluaran, setNewPengeluaran] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
 
-  // Fungsi untuk menambahkan transaksi pemasukan
-  const addIncomeTransaction = () => {
-    const transaction = { amount: incomeAmount, type: 'income', date: new Date() };
-    setIncomeTransactions([...incomeTransactions, transaction]);
-    setIncome(income + incomeAmount);
-    setBalance(balance + incomeAmount);
-    setStatus(balance + incomeAmount > 0 ? 'Positif' : 'Negatif');
+  // Function to handle form submission for adding data
+  const AddDataAnalytics = async (event) => {
+    event.preventDefault();
+    try {
+      const postData = await axios.post(`http://localhost:8080/create/analytics`, {
+        id_analytics: newIdAnalytics,
+        saldo_awal: newSaldoAwal,
+        pemasukan: newPemasukan,
+        pengeluaran: newPengeluaran,
+      });
+      alert(postData.data.messages);
+      window.location.reload();
+    } catch (error) {
+      alert("Data Gagal ditambahkan");
+    }
   };
-
-  // Fungsi untuk menambahkan transaksi pengeluaran
-  const addExpenseTransaction = () => {
-    const transaction = { amount: expenseAmount, type: 'expenses', date: new Date() };
-    setExpenseTransactions([...expenseTransactions, transaction]);
-    setExpenses(expenses + expenseAmount);
-    setBalance(balance - expenseAmount);
-    setStatus(balance - expenseAmount > 0 ? 'Positif' : 'Negatif');
+  const showModalAdd = () => {
+    setShowAdd(true);
   };
+  
+  const closeModalAdd = () => {
+    setIdAnalytics("");
+    setSaldoAwal("");
+    setPemasukan("");
+    setPengeluaran("");
+    setShowAdd(false);
+  };
+  
 
-  // Fungsi untuk menangani pengaturan saldo awal
-  const handleInitialBalance = () => {
-    if (initialBalance !== null) {
-      setBalance(initialBalance);
+  const UpdateDataAnalytics = async (event) => {
+    event.preventDefault();
+    try {
+      const putData = await axios.put(
+        `http://localhost:8080/update/analytics/${id_analytics}`,
+        {
+          id_analytics: id_analytics,
+          saldo_awal: saldo_awal,
+          pemasukan: pemasukan,
+          pengeluaran: pengeluaran,
+        }
+      );
+      alert(putData.data.messages);
+      window.location.reload();
+    } catch (error) {
+      alert("Data Gagal diubah");
+    }
+  };
+  
+
+  const showModal = (data) => {
+    setIdAnalytics(data.id_analytics);
+    setSaldoAwal(data.saldo_awal);
+    setPemasukan(data.pemasukan);
+    setPengeluaran(data.pengeluaran);
+    setShow(true);
+  };
+  
+  const closeModal = () => {
+    setIdAnalytics("");
+    setSaldoAwal("");
+    setPemasukan("");
+    setPengeluaran("");
+    setShow(false);
+  };
+  
+  // Mendefinisikan state untuk menampilkan atau menyembunyikan modal penghapusan
+  const [showDelete, setShowDelete] = useState(false);
+
+  const showModalDelete = (data) => {
+    // Fungsi untuk menampilkan modal penghapusan
+    setIdAnalytics(data.id_analytics);
+    setSaldoAwal(data.saldo_awal);
+    setPemasukan(data.pemasukan);
+    setPengeluaran(data.pengeluaran);
+    setShowDelete(true);
+  };
+  
+  const closeModalDelete = () => {
+    // Fungsi untuk menutup modal penghapusan
+    setIdAnalytics(""); // Mengatur kembali id_analytics menjadi kosong
+    setSaldoAwal(""); // Mengatur kembali saldo_awal menjadi kosong
+    setPemasukan("");
+    setPengeluaran("");
+    setShowDelete(false);
+  };
+  
+
+  const DeleteDataAnalytics = async (event) => {
+    event.preventDefault(); // Mencegah perilaku bawaan dari event
+    try {
+      const deleteData = await axios.delete(
+        // Mengirim permintaan penghapusan ke URL yang sesuai dengan id
+        `http://localhost:8080/delete/analytics/${id}`
+      );
+      alert(deleteData.data.messages); // Menampilkan pesan yang dikembalikan dalam sebuah alert
+      window.location.reload(); // Memuat ulang halaman
+    } catch (error) {
+      alert("Data Gagal dihapus");
     }
   };
 
+  const [data_login, setDataAnalytics] = useState([]);
+
+  const GetDataAnalytics = async () => {
+    const getData = await axios.get(`http://localhost:8080/analytics`);
+    setDataAnalytics(getData.data.data);
+    console.log(getData);
+  };
+
+  useEffect(() => {
+    GetDataAnalytics();
+  }, []);
+
   return (
-    <div className="container mt-4">
-      <Navbar />
-      <div className="card">
-        <div className="card-header">
-          <h2 className="mb-0">Analytics</h2>
-        </div>
-        <div className="card-body mb-4">
-          <div className="row mb-4">
-            <div className="col-md-4">
-              <div className="card bg-success text-white">
-                <div className="card-body">
-                  <h5 className="card-title">Jumlah Pemasukan</h5>
-                  <p className="card-text">Rp. {income}</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card bg-danger text-white">
-                <div className="card-body">
-                  <h5 className="card-title">Jumlah Pengeluaran</h5>
-                  <p className="card-text">Rp. {expenses}</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className={`card text-white ${balance >= 0 ? 'bg-success' : 'bg-danger'}`}>
-                <div className="card-body">
-                  <h5 className="card-title">Selisih</h5>
-                  <h1 className="card-text"> Rp. {balance}</h1>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="body-flex">
+      <Navbar/>
+      <div className="flex">
+        <div className="col-10 p-5 mx-auto">
+          <h1 className="py-1">Data Tagihan</h1>
+          <CButton className="btn btn-danger text-white me-2 mb-4" onClick={showModalAdd}>Tambah</CButton>
 
-          <div className="row">
-            <div className="col-md-6">
-              <h3>Riwayat Mutasi Pemasukan</h3>
-              <ul className="list-group">
-                {incomeTransactions.map((transaction, index) => (
-                  <li key={index} className="list-group-item">
-                    + Rp. {transaction.amount} ({transaction.date.toDateString()})
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="col-md-6">
-              <h3>Riwayat Mutasi Pengeluaran</h3>
-              <ul className="list-group">
-                {expenseTransactions.map((transaction, index) => (
-                  <li key={index} className="list-group-item">
-                    - Rp. {transaction.amount} ({transaction.date.toDateString()})
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <Modal show={showAdd} onHide={closeModalAdd}>
+            <Modal.Header closeButton>
+              <Modal.Title>Form Tambah Data</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <Form onSubmit={AddDataAnalytics}>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+    <Form.Label>Id_analytics</Form.Label>
+    <Form.Control
+      type="text"
+      autoFocus
+      onChange={(e) => setNewIdAnalytics(e.target.value)}
+      value={newIdAnalytics}
+    />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+    <Form.Label>saldo_awal</Form.Label>
+    <Form.Control
+      type="number"
+      autoFocus
+      onChange={(e) => setNewSaldoAwal(e.target.value)}
+      value={newSaldoAwal}
+    />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+    <Form.Label>pemasukan</Form.Label>
+    <Form.Control
+      type="number"
+      autoFocus
+      onChange={(e) => setNewPemasukan(e.target.value)}
+      value={newPemasukan}
+    />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+    <Form.Label>pengeluaran</Form.Label>
+    <Form.Control
+      type="number"
+      autoFocus
+      onChange={(e) => setNewPengeluaran(e.target.value)}
+      value={newPengeluaran}
+    />
+  </Form.Group>
+  <Button type="submit" color="primary" className="px-4">
+    Tambah
+  </Button>
+</Form>
 
-          <form className="mb-4" onSubmit={(e) => { e.preventDefault(); handleInitialBalance(); }}>
-            <div className="form-group">
-              <label>Saldo Awal:</label>
-              <input type="number" className="form-control" value={initialBalance || ''} onChange={(e) => setInitialBalance(Number(e.target.value))} />
-            </div>
-            <button type="submit" className="btn btn-primary">Set Saldo Awal</button>
-          </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeModalAdd}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-          <div className="row">
-            <div className="col-md-6">
-              <form onSubmit={(e) => { e.preventDefault(); addIncomeTransaction(); }}>
-                <div className="form-group">
-                  <label>Jumlah Pemasukan:</label>
-                  <input type="number" className="form-control" value={incomeAmount} onChange={(e) => setIncomeAmount(Number(e.target.value))} />
-                </div>
-                <button type="submit" className="btn btn-success">Tambah Pemasukan</button>
-              </form>
-            </div>
-            <div className="col-md-6">
-              <form onSubmit={(e) => { e.preventDefault(); addExpenseTransaction(); }}>
-                <div className="form-group">
-                  <label>Jumlah Pengeluaran:</label>
-                  <input type="number" className="form-control" value={expenseAmount} onChange={(e) => setExpenseAmount(Number(e.target.value))} />
-                </div>
-                <button type="submit" className="btn btn-danger">Tambah Pengeluaran</button>
-              </form>
-            </div>
-          </div>
+          <Modal show={show} onHide={closeModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Form Update Data</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <Form onSubmit={UpdateDataAnalytics}>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+    {/* You can add any additional form fields for updating data */}
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+    <Form.Label>Id Analytics</Form.Label>
+    <Form.Control
+      type="text"
+      autoFocus
+      onChange={(e) => setIdAnalytics(e.target.value)}
+      value={id_analytics}
+    />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+    <Form.Label>Saldo Awal</Form.Label>
+    <Form.Control
+      type="text"
+      autoFocus
+      onChange={(e) => setSaldoAwal(e.target.value)}
+      value={saldo_awal}
+    />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+    <Form.Label>Pemasukan</Form.Label>
+    <Form.Control
+      type="text"
+      autoFocus
+      onChange={(e) => setPemasukan(e.target.value)}
+      value={pemasukan}
+    />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+    <Form.Label>Pengeluaran</Form.Label>
+    <Form.Control
+      type="text"
+      autoFocus
+      onChange={(e) => setPengeluaran(e.target.value)}
+      value={pengeluaran}
+    />
+  </Form.Group>
+  <Button type="submit" color="primary" className="px-4">
+    Update
+  </Button>
+</Form>
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showDelete} onHide={closeModalDelete}>
+            <Modal.Header closeButton>
+              <Modal.Title>Apakah Anda yakin menghapus data ini?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <div className="col-sm-12">
+  <div className="card">
+    <div className="card-body">
+      <h5 className="card-title">Detail Data</h5>
+      <div className="row">
+        <p className="col-4 card-text">Id_analytics</p>
+        <p className="col-6 card-text">: {id_analytics}</p>
+      </div>
+      <div className="row">
+        <p className="col-4 card-text">saldo_awal</p>
+        <p className="col-6 card-text">: {saldo_awal}</p>
+      </div>
+      <div className="row">
+        <p className="col-4 card-text">pemasukan</p>
+        <p className="col-6 card-text">: {pemasukan}</p>
+      </div>
+      <div className="row">
+        <p className="col-4 card-text">pengeluaran</p>
+        <p className="col-6 card-text">: {pengeluaran}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                type="submit"
+                color="primary"
+                className="px-4"
+                onClick={DeleteDataAnalytics}
+              >
+                Hapus Data
+              </Button>
+              <Button variant="danger" onClick={closeModalDelete}>
+                Batal
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <CCard className="mb-4 mx-auto">
+            <CCardHeader>
+              <strong>Tabel Tagihan</strong>
+            </CCardHeader>
+            <CCardBody>
+              <p className="text-medium-emphasis small">
+                Tabel ini menampilkan data dari berbagai tagihan
+              </p>
+
+              <CTable striped>
+  <CTableHead>
+    <CTableRow>
+      <CTableHeaderCell scope="col">Id_analytics</CTableHeaderCell>
+      <CTableHeaderCell scope="col">saldo_awal</CTableHeaderCell>
+      <CTableHeaderCell scope="col">pemasukan</CTableHeaderCell>
+      <CTableHeaderCell scope="col">pengeluaran</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Aksi</CTableHeaderCell>
+    </CTableRow>
+  </CTableHead>
+  <CTableBody>
+                  {data_login.map((item, index) => {
+                    return (
+                      <CTableRow key={index}>
+  <CTableHeaderCell> {item.id_analytics} </CTableHeaderCell>
+  <CTableHeaderCell> {item.saldo_awal} </CTableHeaderCell>
+  <CTableHeaderCell> {item.pemasukan} </CTableHeaderCell>
+  <CTableHeaderCell> {item.pengeluaran} </CTableHeaderCell>
+  <CTableDataCell>
+    <CButton
+      className="btn btn-primary text-white me-2"
+      onClick={() => showModal(item)}
+    >
+      Edit
+    </CButton>
+    <CButton
+      className="btn btn-danger text-white"
+      onClick={() => showModalDelete(item)}
+    >
+      Hapus
+    </CButton>
+  </CTableDataCell>
+</CTableRow>
+
+                    );
+                  })}
+                </CTableBody>
+              </CTable>
+            </CCardBody>
+          </CCard>
         </div>
       </div>
-      <Footer />
     </div>
   );
-};
+}
 
 export default Analytics;

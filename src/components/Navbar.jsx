@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import avatar from '../components/img/avatar.png'
 
 export default function Navbar() {
-  const links = ["Home", "Analytics", "Transaction", "Goals"];
+  const links = ["Home", "Analytics", "Transaction", "Goals", "Bills"];
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
   html.addEventListener("click", (e) => setIsNavOpen(false));
