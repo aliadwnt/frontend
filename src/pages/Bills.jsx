@@ -131,7 +131,7 @@ function Bills() {
       <Navbar/>
       <div className="flex">
         <div className="col-10 p-5 mx-auto">
-          <h1 className="py-1">Data Tagihan</h1>
+        <h1 className="py-1 text-center font-weight-bold">DATA TAGIHAN </h1>
           <CButton className="btn btn-danger text-white me-2 mb-4" onClick={showModalAdd}>Tambah</CButton>
 
           <Modal show={showAdd} onHide={closeModalAdd}>
@@ -259,7 +259,7 @@ function Bills() {
             </CCardHeader>
             <CCardBody>
               <p className="text-medium-emphasis small">
-                Tabel ini menampilkan data dari berbagai tagihan
+                TABLE INI MENAMPILAN BERBAGAI MACAM TAGIHAN BERUPA NAMA DAN NOMINAL TAGIHAN
               </p>
 
               <CTable striped>

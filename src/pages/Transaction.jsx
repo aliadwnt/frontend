@@ -1,5 +1,4 @@
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -18,7 +17,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Transaction() {
-  const [id, setid] = useState("");
+  const [id, setId] = useState("");
   const [nama_transaksi, setNamaTransaksi] = useState("");
   const [tanggal_transaksi, setTanggalTransaksi] = useState("");
   const [jumlah_transaksi, setJumlahTransaksi] = useState("");
@@ -30,6 +29,7 @@ function Transaction() {
   const [newJumlahTransaksi, setNewJumlahTransaksi] = useState("");
   const [newStruk, setNewStruk] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
+
 
   // const AddDataTransactions = async (event) => {
   //   event.preventDefault();
@@ -46,28 +46,33 @@ function Transaction() {
   //     alert("Data Gagal ditambahkan");
   //   }
   // };
+
   const AddDataTransactions = async (event) => {
     event.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("nama_transaksi", newNamaTransaksi);
-      formData.append("tanggal_transaksi", newTanggalTransaksi);
-      formData.append("jumlah_transaksi", newJumlahTransaksi);
-      formData.append("struk", newStruk);
-  
+      formData.append('nama_transaksi', newNamaTransaksi);
+      formData.append('tanggal_transaksi', newTanggalTransaksi);
+      formData.append('jumlah_transaksi', newJumlahTransaksi);
+      formData.append('struk', newStruk);
+
       const postData = await axios.post(`http://localhost:8080/create/transaction`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
-  
-      alert(postData.data.messages);
-      window.location.reload();
+
+      if (postData.data && postData.data.messages) {
+        alert(postData.data.messages);
+        window.location.reload();
+      } else {
+        alert('Data Gagal ditambahkan');
+      }
     } catch (error) {
-      alert("Data Gagal ditambahkan");
+      console.error('Error Adding Data:', error);
+      alert('Data Gagal ditambahkan');
     }
   };
-  
 
   const showModalAdd = () => {
     setShowAdd(true);
@@ -77,31 +82,49 @@ function Transaction() {
     setNewNamaTransaksi("");
     setNewTanggalTransaksi("");
     setNewJumlahTransaksi("");
-    setNewStruk("");
+    setNewStruk(null);
     setShowAdd(false);
   };
 
   const UpdateDataTransactions = async (event) => {
     event.preventDefault();
+    console.log('Before Update:', { id, nama_transaksi, tanggal_transaksi, jumlah_transaksi, struk });
+
     try {
+      const formData = new FormData();
+      formData.append('nama_transaksi', nama_transaksi);
+      formData.append('tanggal_transaksi', tanggal_transaksi);
+      formData.append('jumlah_transaksi', jumlah_transaksi);
+      formData.append('struk', struk);
+
+      console.log('FormData:', formData);
+
       const putData = await axios.put(
         `http://localhost:8080/update/transaction/${id}`,
+        formData,
         {
-          nama_transaksi: nama_transaksi,
-          tanggal_transaksi: tanggal_transaksi,
-          jumlah_transaksi: jumlah_transaksi,
-          struk: struk,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         }
       );
+
+      console.log('After Update:', { id, nama_transaksi, tanggal_transaksi, jumlah_transaksi, struk });
+
       alert(putData.data.messages);
       window.location.reload();
     } catch (error) {
-      alert("Data Gagal diubah");
+      console.error('Error Updating Data:', error);
+      alert('Data Gagal diubah');
     }
   };
 
+  useEffect(() => {
+    console.log('State Updated:', { id, nama_transaksi, tanggal_transaksi, jumlah_transaksi, struk });
+  }, [id, nama_transaksi, tanggal_transaksi, jumlah_transaksi, struk]);
+
   const showModal = (data) => {
-    setid(data.id);
+    setId(data.id_transaksi);
     setNamaTransaksi(data.nama_transaksi);
     setTanggalTransaksi(data.tanggal_transaksi);
     setJumlahTransaksi(data.jumlah_transaksi);
@@ -110,7 +133,7 @@ function Transaction() {
   };
 
   const closeModal = () => {
-    setid("");
+    setId("");
     setNamaTransaksi("");
     setTanggalTransaksi("");
     setJumlahTransaksi("");
@@ -121,7 +144,7 @@ function Transaction() {
   const [showDelete, setShowDelete] = useState(false);
 
   const showModalDelete = (data) => {
-    setid(data.id);
+    setId(data.id_transaksi);
     setNamaTransaksi(data.nama_transaksi);
     setTanggalTransaksi(data.tanggal_transaksi);
     setJumlahTransaksi(data.jumlah_transaksi);
@@ -130,7 +153,7 @@ function Transaction() {
   };
 
   const closeModalDelete = () => {
-    setid("");
+    setId("");
     setNamaTransaksi("");
     setTanggalTransaksi("");
     setJumlahTransaksi("");
@@ -147,16 +170,21 @@ function Transaction() {
       alert(deleteData.data.messages);
       window.location.reload();
     } catch (error) {
-      alert("Data Gagal dihapus");
+      console.error('Error Deleting Data:', error);
+      alert('Data Gagal dihapus');
     }
   };
 
   const [data_transactions, setDataTransactions] = useState([]);
 
   const GetTransactions = async () => {
-    const getData = await axios.get(`http://localhost:8080/transaction`);
-    setDataTransactions(getData.data.data);
-    console.log(getData);
+    try {
+      const getData = await axios.get(`http://localhost:8080/transaction`);
+      setDataTransactions(getData.data.data);
+      console.log(getData);
+    } catch (error) {
+      console.error('Error Fetching Data:', error);
+    }
   };
 
   useEffect(() => {
@@ -165,10 +193,11 @@ function Transaction() {
 
   return (
     <div className="body-flex">
-      <Navbar/>
+      <Navbar />
       <div className="flex">
         <div className="col-10 p-5 mx-auto">
-          <h1 className="py-1">Data Transaksi</h1>
+        <h1 className="py-1 text-center font-weight-bold">DATA TRANSAKSI</h1>
+
           <CButton className="btn btn-danger text-white me-2 mb-4" onClick={showModalAdd}>Tambah</CButton>
 
           <Modal show={showAdd} onHide={closeModalAdd}>
@@ -177,7 +206,7 @@ function Transaction() {
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={AddDataTransactions}>
-                <Form.Group className="mb-3" controlid="exampleForm.ControlInput1">
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Nama Transaksi</Form.Label>
                   <Form.Control
                     type="text"
@@ -186,7 +215,7 @@ function Transaction() {
                     value={newNamaTransaksi}
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlid="exampleForm.ControlInput1">
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                   <Form.Label>Tanggal Transaksi</Form.Label>
                   <Form.Control
                     type="date"
@@ -195,7 +224,7 @@ function Transaction() {
                     value={newTanggalTransaksi}
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlid="exampleForm.ControlInput1">
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                   <Form.Label>Jumlah Transaksi</Form.Label>
                   <Form.Control
                     type="number"
@@ -204,14 +233,14 @@ function Transaction() {
                     value={newJumlahTransaksi}
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-  <Form.Label>Struk (File Gambar)</Form.Label>
-  <Form.Control
-    type="file"
-    accept="image/*"
-    onChange={(e) => setNewStruk(e.target.files[0])}
-  />
-</Form.Group>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                  <Form.Label>Struk (File Gambar)</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setNewStruk(e.target.files[0])}
+                  />
+                </Form.Group>
                 <Button type="submit" color="primary" className="px-4">
                   Tambah
                 </Button>
@@ -230,14 +259,7 @@ function Transaction() {
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={UpdateDataTransactions}>
-                <Form.Group
-                  className="mb-3"
-                  controlid="exampleForm.ControlInput1"
-                ></Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlid="exampleForm.ControlInput1"
-                >
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                   <Form.Label>Nama Transaksi</Form.Label>
                   <Form.Control
                     type="text"
@@ -246,10 +268,7 @@ function Transaction() {
                     value={nama_transaksi}
                   />
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlid="exampleForm.ControlInput1"
-                >
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
                   <Form.Label>Tanggal Transaksi</Form.Label>
                   <Form.Control
                     type="date"
@@ -258,10 +277,7 @@ function Transaction() {
                     value={tanggal_transaksi}
                   />
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlid="exampleForm.ControlInput1"
-                >
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
                   <Form.Label>Jumlah Transaksi</Form.Label>
                   <Form.Control
                     type="number"
@@ -270,16 +286,12 @@ function Transaction() {
                     value={jumlah_transaksi}
                   />
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlid="exampleForm.ControlInput1"
-                >
-                  <Form.Label>Struk</Form.Label>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
+                  <Form.Label>Struk (File Gambar)</Form.Label>
                   <Form.Control
-                    type="text"
-                    autoFocus
-                    onChange={(e) => setStruk(e.target.value)}
-                    value={struk}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setStruk(e.target.files[0])}
                   />
                 </Form.Group>
                 <Button type="submit" color="primary" className="px-4">
@@ -344,47 +356,50 @@ function Transaction() {
             </CCardHeader>
             <CCardBody>
               <p className="text-medium-emphasis small">
-                Tabel ini menampilkan data dari berbagai transaksi
+                TABLE INI MENAMPILKAN DATA TRANSAKSI YANG TELAH DILAKUKAN OLEH USER
               </p>
 
               <CTable striped>
-                <CTableHead>
-                  <CTableRow>
-                    <CTableHeaderCell scope="col">ID Transaksi</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Tanggal Transaksi</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Jumlah Transaksi</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Struk</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Aksi</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {data_transactions.map((item, index) => {
-                    return (
-                      <CTableRow key={index}>
-                        <CTableHeaderCell> {item.id_transaksi} </CTableHeaderCell>
-                        <CTableHeaderCell> {item.tanggal_transaksi} </CTableHeaderCell>
-                        <CTableHeaderCell> {item.jumlah_transaksi} </CTableHeaderCell>
-                        <CTableHeaderCell>
-          <img src={`path/to/image/${item.struk}`} alt="Struk" width="50" height="50" />
+              <CTableHead>
+  <CTableRow>
+    <CTableHeaderCell scope="col">ID</CTableHeaderCell>
+    <CTableHeaderCell scope="col">Tanggal Transaksi</CTableHeaderCell>
+    <CTableHeaderCell scope="col">Nama Transaksi</CTableHeaderCell>
+    <CTableHeaderCell scope="col">Jumlah Transaksi</CTableHeaderCell>
+    <CTableHeaderCell scope="col">Struk</CTableHeaderCell>
+    <CTableHeaderCell scope="col">Aksi</CTableHeaderCell>
+  </CTableRow>
+</CTableHead>
+<CTableBody>
+  {data_transactions.map((item, index) => {
+    return (
+      <CTableRow key={index}>
+        <CTableHeaderCell> {item.id_transaksi} </CTableHeaderCell>
+        <CTableHeaderCell> {item.tanggal_transaksi} </CTableHeaderCell>
+        <CTableHeaderCell> {item.nama_transaksi} </CTableHeaderCell>
+        <CTableHeaderCell> {item.jumlah_transaksi} </CTableHeaderCell>
+        <CTableHeaderCell>
+          <img src={`http://localhost:8080/path/to/image/${item.struk}`} alt="Struk" width="50" height="50" />
         </CTableHeaderCell>
-                        <CTableDataCell>
-                          <CButton
-                            className="btn btn-primary text-white me-2"
-                            onClick={() => showModal(item)}
-                          >
-                            Edit
-                          </CButton>
-                          <CButton
-                            className="btn btn-danger text-white"
-                            onClick={() => showModalDelete(item)}
-                          >
-                            Hapus
-                          </CButton>
-                        </CTableDataCell>
-                      </CTableRow>
-                    );
-                  })}
-                </CTableBody>
+        <CTableDataCell>
+          <CButton
+            className="btn btn-primary text-white me-2"
+            onClick={() => showModal(item)}
+          >
+            Edit
+          </CButton>
+          <CButton
+            className="btn btn-danger text-white"
+            onClick={() => showModalDelete(item)}
+          >
+            Hapus
+          </CButton>
+        </CTableDataCell>
+      </CTableRow>
+    );
+  })}
+</CTableBody>
+
               </CTable>
             </CCardBody>
           </CCard>

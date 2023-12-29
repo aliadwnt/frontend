@@ -637,7 +637,7 @@ function Goals() {
       <Navbar />
       <div className="flex">
         <div className="col-10 p-5 mx-auto">
-          <h1 className="py-1">Data Tujuan</h1>
+        <h1 className="py-1 text-center font-weight-bold">DATA TARGET KEUANGAN</h1>
           <CButton
             className="btn btn-danger text-white me-2 mb-4"
             onClick={showModalAdd}
@@ -652,7 +652,7 @@ function Goals() {
             <Modal.Body>
               <Form onSubmit={AddDataGoals}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label>Nama Tujuan</Form.Label>
+                  <Form.Label>Nama Target</Form.Label>
                   <Form.Control
                     type="text"
                     autoFocus
@@ -840,7 +840,7 @@ function Goals() {
             </CCardHeader>
             <CCardBody>
               <p className="text-medium-emphasis small">
-                Tabel ini menampilkan data dari berbagai tujuan
+                TABLE INI MENAMPILKAN SEMUA DATA TARGET USER
               </p>
 
               <CTable striped>
