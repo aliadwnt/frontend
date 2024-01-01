@@ -606,15 +606,15 @@ function Analytics() {
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={AddDataAnalytics}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
+                {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
                   <Form.Label>Tanggal</Form.Label>
                   <Form.Control
                     type="date"
                     autoFocus
                     onChange={(e) => setTgl(e.target.value)}
                     value={tgl}
-                  />
-                </Form.Group>
+                  /> */}
+                {/* </Form.Group> */}
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                   <Form.Label>Tuliskan Saldo Awal anda :</Form.Label>
                   <Form.Control
@@ -670,15 +670,15 @@ function Analytics() {
                     value={id_analytics}
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                   <Form.Label>Tanggal</Form.Label>
                   <Form.Control
                     type="date"
                     autoFocus
                     onChange={(e) => setTgl(e.target.value)}
                     value={tgl}
-                  />
-                </Form.Group>
+                  /> */}
+                {/* </Form.Group> */}
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                   <Form.Label>Saldo Awal</Form.Label>
                   <Form.Control
@@ -731,10 +731,10 @@ function Analytics() {
                       <p className="col-4 card-text">ID</p>
                       <p className="col-6 card-text">: {id_analytics}</p>
                     </div>
-                    <div className="row">
+                    {/* <div className="row">
                       <p className="col-4 card-text">Tanggal</p>
                       <p className="col-6 card-text">: {tgl}</p>
-                    </div>
+                    </div> */}
                     <div className="row">
                       <p className="col-4 card-text">Saldo Awal</p>
                       <p className="col-6 card-text">: {saldo_awal}</p>
@@ -779,7 +779,7 @@ function Analytics() {
                 <CTableHead>
                   <CTableRow>
                     <CTableHeaderCell scope="col">ID</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Tanggal</CTableHeaderCell>
+                    {/* <CTableHeaderCell scope="col">Tanggal</CTableHeaderCell> */}
                     <CTableHeaderCell scope="col">Saldo Awal</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Pemasukan</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Pengeluaran</CTableHeaderCell>
@@ -791,7 +791,7 @@ function Analytics() {
                     return (
                       <CTableRow key={index}>
                         <CTableHeaderCell>{item.id_analytics}</CTableHeaderCell>
-                        <CTableHeaderCell>{item.tgl}</CTableHeaderCell>
+                        {/* <CTableHeaderCell>{item.tgl}</CTableHeaderCell> */}
                         <CTableHeaderCell>{item.saldo_awal}</CTableHeaderCell>
                         <CTableHeaderCell>{item.pemasukan}</CTableHeaderCell>
                         <CTableHeaderCell>{item.pengeluaran}</CTableHeaderCell>

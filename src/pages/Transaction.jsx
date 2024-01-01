@@ -374,21 +374,21 @@ function Transaction() {
   {data_transactions.map((item, index) => {
     return (
       <CTableRow key={index}>
-        <CTableHeaderCell> {item.id_transaksi} </CTableHeaderCell>
-        <CTableHeaderCell> {item.tanggal_transaksi} </CTableHeaderCell>
-        <CTableHeaderCell> {item.nama_transaksi} </CTableHeaderCell>
-        <CTableHeaderCell> {item.jumlah_transaksi} </CTableHeaderCell>
-        <CTableHeaderCell>
-          <img src={`http://localhost:8080/path/to/image/${item.struk}`} alt="Struk" width="50" height="50" />
-        </CTableHeaderCell>
-        <CTableDataCell>
-          <CButton
-            className="btn btn-primary text-white me-2"
-            onClick={() => showModal(item)}
-          >
-            Edit
-          </CButton>
-          <CButton
+  <CTableDataCell> {item.id_transaksi} </CTableDataCell>
+  <CTableDataCell> {item.tanggal_transaksi} </CTableDataCell>
+  <CTableDataCell> {item.nama_transaksi} </CTableDataCell>
+  <CTableDataCell> {item.jumlah_transaksi} </CTableDataCell>
+  <CTableDataCell>
+  <img src={`http://localhost:8080/path/to/image/${item.struk}.jpg`} alt="Struk" width="50" height="50" />
+  </CTableDataCell>
+  <CTableDataCell>
+    <CButton
+      className="btn btn-primary text-white me-2"
+      onClick={() => showModal(item)}
+    >
+      Edit
+    </CButton>
+    <CButton
             className="btn btn-danger text-white"
             onClick={() => showModalDelete(item)}
           >
